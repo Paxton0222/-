@@ -36,6 +36,10 @@ def download():
             print('已找到資料!')
             for i in data:
                 cr.append(i.string)
+            x = list(x)
+            x.insert(4,'/')
+            x.insert(7,'/')
+            x = ''.join(x)
             date1.append(x)
             main_data.append(cr)
         else:
