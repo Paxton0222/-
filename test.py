@@ -23,8 +23,7 @@ def download():
     date1 = []
     date_count = 0
     for x in date:
-        print(main_data)
-        print(date_count)
+        print('第',date_count+1,'天')
         url = "https://www.cnyes.com/futures/History.aspx?mydate={}&code=CDCS".format(x)
         r = requests.get(url)
         print('連接狀態:',r.status_code)
@@ -37,7 +36,7 @@ def download():
             print('已找到資料!')
             for i in data:
                 cr.append(i.string)
-                date1.append(x)
+            date1.append(x)
             main_data.append(cr)
         else:
             print('資料不符合!')
@@ -68,9 +67,8 @@ for i in range(len(d)):
         elif x == 4:
             d5.append(d[i][x])
 dict = {f[0]:d1,f[1]:d2,f[2]:d3,f[3]:d4,f[4]:d5,'日期':date}
-print(dict)
 print(len(dict['開盤']),len(dict['最高']),len(dict['最低']),len(dict['收盤']),len(dict['成交量']),len(dict['日期']))
-#df = pandas.DataFrame(dict)
-#df.set_index('日期',inplace=True)
-#print(df)
-#df.to_csv('test.csv')
+df = pandas.DataFrame(dict)
+df.set_index('日期',inplace=True)
+print(df)
+df.to_csv('test.csv')
