@@ -2,8 +2,9 @@ import requests,time,sqlite3,datetime,pandas
 from bs4 import BeautifulSoup
 
 def datetime1():
-    st = '20200101'
-    et = '20200103'
+    print('日期格式:(20200101)')
+    st = input('請輸入起始日期:')
+    et = input('請輸入最終日期:')
     StartDate = time.strptime(str(st), "%Y%m%d")
     EndDate = time.strptime(str(et), "%Y%m%d")
     StartDate = datetime.date(StartDate[0], StartDate[1], StartDate[2])
@@ -22,17 +23,18 @@ def download():
     for x in date:
         url = "https://www.cnyes.com/futures/History.aspx?mydate={}&code=CDCS".format(x)
         r = requests.get(url)
-        print(r.status_code)
+        print('連接狀態:',r.status_code)
         sp = BeautifulSoup(r.text,'lxml')
         tabs1 = sp.find_all('div',{'class':'tabs1'})
         field = tabs1[0].find('table').find_all('th')
         data = tabs1[0].find('table').find_all('tr')[1].find_all('td')
-        print(len(data))
         cr = [] #data
         if len(data) == 5:
+            print('已找到資料!')
             for i in data:
                 cr.append(i.string)
         else:
+            print('資料不符合!')
             date.pop(date_count)
         main_data.append(cr)
         fields = [] #row
@@ -41,6 +43,7 @@ def download():
         time.sleep(0.5)
         date_count+=1
     return fields,main_data,date
+
 
 data = download()[0:]
 f = data[0]
